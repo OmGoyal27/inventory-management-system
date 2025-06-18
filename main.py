@@ -156,6 +156,7 @@ class UserInteractionViaTerminal:
             print("2. Add a product")
             print("3. Sell a product")
             print("4. View stock of all the products")
+            print("5. View Price of all the prooducts")
             print("Type 'q' to quit")
             
             choice = input("Enter your choice: ")
@@ -183,6 +184,13 @@ class UserInteractionViaTerminal:
             elif choice == "4":
                 print("Stock of all products:")
                 getStockOfInputProduct(self.inventory)
+            
+            elif choice == "5":
+                all_products = self.inventory.get_all_products_names()
+                print("Price of all products:")
+                for product in all_products:
+                    price = self.inventory.get_price_of_product(product)
+                    print(f"{product}: {price}")
 
             elif choice == "q":
                 print("Exiting the system.")
