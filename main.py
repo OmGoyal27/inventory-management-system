@@ -142,3 +142,53 @@ class Inventory:
         self.update_raw_inventory(inventory)
         
         return f"Sold {quantity} of '{product_name}'. New stock: {inventory[product_name]['Stock']}"
+    
+class UserInteractionViaTerminal:
+    def __init__(self):
+        self.inventory = Inventory()
+
+    def run(self):
+        print("\nWelcome to the Inventory Management System")
+        print("This app is made by Om Goyal.")
+        while True:
+            print("\n")
+            print("1. View all products")
+            print("2. Add a product")
+            print("3. Sell a product")
+            print("Type 'q' to quit")
+            
+            choice = input("Enter your choice: ")
+            print("\n")
+
+            if choice == "1":
+                products = self.inventory.get_all_products_names()
+                print("Available products:", products)
+
+            elif choice == "2":
+                name = input("Enter product name: ")
+                description = input("Enter product description: ")
+                company = input("Enter company name: ")
+                price = float(input("Enter product price: "))
+                stock = input("Enter stock quantity: ")
+                self.inventory.add_product(name, description, company, price, stock)
+                print(f"Product '{name}' added successfully.")
+
+            elif choice == "3":
+                name = input("Enter product name to sell: ")
+                quantity = int(input("Enter quantity to sell: "))
+                result = self.inventory.sell_product(name, quantity)
+                print(result)
+
+            elif choice == "q":
+                print("Exiting the system.")
+                break
+
+            else:
+                print("Invalid choice. Please try again.")
+
+def main():
+    user_interaction = UserInteractionViaTerminal()
+    user_interaction.run()
+
+if __name__ == "__main__":
+    main()
