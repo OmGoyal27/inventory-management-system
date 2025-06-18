@@ -1,8 +1,9 @@
+import json
+
 class Inventory:
     def __init__(self):
         self.database_path = "database/products.json"
         
-
     def get_raw_inventory(self) -> dict[str, dict[str, str]]:
         """
         Function to get the inventory from the database.
@@ -33,7 +34,7 @@ class Inventory:
         with open(self.database_path, "r") as file:
             inventory = file.read()
 
-        return inventory
+        return json.loads(inventory)
 
     def get_all_products_names(self) -> list[str]:
         """
@@ -92,7 +93,7 @@ class Inventory:
         """
 
         with open(self.database_path, "w") as file:
-            file.write(new_inventory)
+            file.write(json.dumps(new_inventory))
 
     def add_product(self, product_name: str, description: str, company: str, price: float, stock: str) -> None:
         """
