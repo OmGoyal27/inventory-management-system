@@ -93,7 +93,7 @@ class Inventory:
         """
 
         with open(self.database_path, "w") as file:
-            file.write(json.dumps(new_inventory))
+            file.write(json.dumps(new_inventory), indent=4)
 
     def add_product(self, product_name: str, description: str, company: str, price: float, stock: str) -> None:
         """
