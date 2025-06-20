@@ -156,7 +156,7 @@ class UserInteractionViaTerminal:
             print("2. Add a product")
             print("3. Sell a product")
             print("4. View stock of all the products")
-            print("5. View Price of all the prooducts")
+            print("5. View Price of all the products")
             print("Type 'q' to quit")
             
             choice = input("Enter your choice: ")
