@@ -183,72 +183,79 @@ class UserInteractionViaTerminal:
             self.handleUserInput(choice)  
 
     def handleUserInput(self, choice: str) -> None:
-        if choice == "1":
-            products = self.inventory.get_all_products_names()
-            print("Available products:", products)
-        elif choice == "2":
-            name = input("Enter product name: ")
-            description = input("Enter product description: ")
-            company = input("Enter company name: ")
-            price = float(input("Enter product price: "))
-            stock = input("Enter stock quantity: ")
-            self.inventory.add_product(name, description, company, price, stock)
-            print(f"Product '{name}' added successfully.")
-        elif choice == "3":
-            name = input("Enter product name to sell: ")
-            quantity = int(input("Enter quantity to sell: "))
-            result = self.inventory.sell_product(name, quantity)
-            print(result)
-        elif choice == "4":
-            print("Stock of all products:")
-            getStockOfAllProduct(self.inventory)
-        elif choice == "5":
-            all_products = self.inventory.get_all_products_names()
-            print("Price of all products:")
-            for product in all_products:
-                price = self.inventory.get_price_of_product(product)
-                print(f"{product}: {price}")
-        elif choice == "6":
-            printAllProducts(inventory=self.inventory)
-            product_index = int(input("Enter the index of the product to view details: "))
-            all_products = self.inventory.get_all_products_names()
-            if not 0 <= product_index < len(all_products):
-                print("Invalid index. Please try again.")
-                return
-            
-            product_name = all_products[product_index]
-            viewProductDetails(self.inventory, product_name)
-        else:
-            print("Invalid choice. Please try again.")
+        match choice:
+            case "1":
+                products = self.inventory.get_all_products_names()
+                print("Available products:", products)
 
-def viewProductDetails(inventory: Inventory, product_name: str) -> None:
-    """
-    Function to view the details of a specific product.
-    """
+            case "2":
+                name = input("Enter product name: ")
+                description = input("Enter product description: ")
+                company = input("Enter company name: ")
+                price = float(input("Enter product price: "))
+                stock = input("Enter stock quantity: ")
+                self.inventory.add_product(name, description, company, price, stock)
+                print(f"Product '{name}' added successfully.")
+                
+            case "3":
+                name = input("Enter product name to sell: ")
+                quantity = int(input("Enter quantity to sell: "))
+                result = self.inventory.sell_product(name, quantity)
+                print(result)
 
-    product_details = inventory.get_details_of_product(product_name)
-    
-    if not product_details:
-        print(f"Product '{product_name}' not found in the inventory.")
-        return
-    
-    print(f"Details of '{product_name}':\n")
-    print(f"Description: {product_details['Description']}")
-    print(f"Company: {product_details['Company']}")
-    print(f"Price: {product_details['Price']}")
-    print(f"Stock: {product_details['Stock']}")
+            case "4":
+                print("Stock of all products:")
+                self.getStockOfAllProduct(self.inventory)
 
-def printAllProducts(inventory: Inventory) -> None:
-    all_products = inventory.get_all_products_names()
+            case "5":
+                all_products = self.inventory.get_all_products_names()
+                print("Price of all products:")
+                for product in all_products:
+                    price = self.inventory.get_price_of_product(product)
+                    print(f"{product}: {price}")
 
-    for index, product in enumerate(all_products):
-        print(f"{index}: {product}")
+            case "6":
+                self.printAllProducts(inventory=self.inventory)
+                product_index = int(input("Enter the index of the product to view details: "))
+                all_products = self.inventory.get_all_products_names()
+                if not 0 <= product_index < len(all_products):
+                    print("Invalid index. Please try again.")
+                    return
 
-def getStockOfAllProduct(inventory: Inventory) -> int:
-    all_products = inventory.get_all_products_names()
+                product_name = all_products[product_index]
+                self.viewProductDetails(self.inventory, product_name)
 
-    for product in all_products:
-        print(f"- {product}: {inventory.get_stock_of_product(product)} in stock")
+            case _:
+                print("Invalid choice. Please try again.")
+
+    def viewProductDetails(self, product_name: str) -> None:
+        """
+        Function to view the details of a specific product.
+        """
+
+        product_details = self.inventory.get_details_of_product(product_name)
+
+        if not product_details:
+            print(f"Product '{product_name}' not found in the inventory.")
+            return
+
+        print(f"Details of '{product_name}':\n")
+        print(f"Description: {product_details['Description']}")
+        print(f"Company: {product_details['Company']}")
+        print(f"Price: {product_details['Price']}")
+        print(f"Stock: {product_details['Stock']}")
+
+    def printAllProducts(self) -> None:
+        all_products = self.inventory.get_all_products_names()
+
+        for index, product in enumerate(all_products):
+            print(f"{index}: {product}")
+
+    def getStockOfAllProduct(self) -> int:
+        all_products = self.inventory.get_all_products_names()
+
+        for product in all_products:
+            print(f"- {product}: {self.inventory.get_stock_of_product(product)} in stock")
 
 def main():
     user_interaction = UserInteractionViaTerminal()
