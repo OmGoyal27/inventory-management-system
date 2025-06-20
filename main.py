@@ -198,7 +198,15 @@ class UserInteractionViaTerminal:
                 print(f"Product '{name}' added successfully.")
                 
             case "3":
-                name = input("Enter product name to sell: ")
+                self.printAllProducts()
+                name = input("Enter product index to sell: ")
+                all_products = self.inventory.get_all_products_names()
+                if not name.isdigit() or int(name) < 0 or int(name) >= len(all_products):
+                    print("Invalid product index. Please try again.")
+                    return
+
+                name = all_products[int(name)]
+                print(f"Selected product: {name} with stock {self.inventory.get_stock_of_product(name)}")
                 quantity = int(input("Enter quantity to sell: "))
                 result = self.inventory.sell_product(name, quantity)
                 print(result)
