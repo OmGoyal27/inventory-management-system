@@ -85,6 +85,19 @@ class Inventory:
         
         return stock
     
+    def get_details_of_product(self, product_name: str) -> dict[str, str] | None:
+        """
+        Function to get the details of a product.
+
+        Returns a dictionary with the product details if it exists, otherwise returns None.
+        """
+
+        inventory = self.get_raw_inventory()
+        if not product_name in inventory:
+            return None
+        
+        return inventory[product_name]
+
     def update_raw_inventory(self, new_inventory: dict[str, dict[str, str]]) -> None:
         """
         Function to update the inventory with a new inventory.
@@ -157,6 +170,7 @@ class UserInteractionViaTerminal:
             print("3. Sell a product")
             print("4. View stock of all the products")
             print("5. View Price of all the products")
+            print("6. View details of a product")
             print("Type 'q' to quit")
             
             choice = input("Enter your choice: ")
@@ -183,7 +197,7 @@ class UserInteractionViaTerminal:
 
             elif choice == "4":
                 print("Stock of all products:")
-                getStockOfInputProduct(self.inventory)
+                getStockOfAllProduct(self.inventory)
             
             elif choice == "5":
                 all_products = self.inventory.get_all_products_names()
@@ -192,6 +206,17 @@ class UserInteractionViaTerminal:
                     price = self.inventory.get_price_of_product(product)
                     print(f"{product}: {price}")
 
+            elif choice == "6":
+                printAllProducts(inventory=self.inventory)
+                product_index = int(input("Enter the index of the product to view details: "))
+                all_products = self.inventory.get_all_products_names()
+                if not 0 <= product_index < len(all_products):
+                    print("Invalid index. Please try again.")
+                    continue
+
+                product_name = all_products[product_index]
+                viewProductDetails(self.inventory, product_name)
+
             elif choice == "q":
                 print("Exiting the system.")
                 break
@@ -199,7 +224,30 @@ class UserInteractionViaTerminal:
             else:
                 print("Invalid choice. Please try again.")
 
-def getStockOfInputProduct(inventory: Inventory) -> int:
+def viewProductDetails(inventory: Inventory, product_name: str) -> None:
+    """
+    Function to view the details of a specific product.
+    """
+
+    product_details = inventory.get_details_of_product(product_name)
+    
+    if not product_details:
+        print(f"Product '{product_name}' not found in the inventory.")
+        return
+    
+    print(f"Details of '{product_name}':\n")
+    print(f"Description: {product_details['Description']}")
+    print(f"Company: {product_details['Company']}")
+    print(f"Price: {product_details['Price']}")
+    print(f"Stock: {product_details['Stock']}")
+
+def printAllProducts(inventory: Inventory) -> None:
+    all_products = inventory.get_all_products_names()
+
+    for index, product in enumerate(all_products):
+        print(f"{index}: {product}")
+
+def getStockOfAllProduct(inventory: Inventory) -> int:
     all_products = inventory.get_all_products_names()
 
     for product in all_products:
