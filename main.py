@@ -213,7 +213,7 @@ class UserInteractionViaTerminal:
 
             case "4":
                 print("Stock of all products:")
-                self.getStockOfAllProduct(self.inventory)
+                self.getStockOfAllProduct()
 
             case "5":
                 all_products = self.inventory.get_all_products_names()
@@ -231,7 +231,7 @@ class UserInteractionViaTerminal:
                     return
 
                 product_name = all_products[product_index]
-                self.viewProductDetails(self.inventory, product_name)
+                self.viewProductDetails(product_name)
 
             case _:
                 print("Invalid choice. Please try again.")
