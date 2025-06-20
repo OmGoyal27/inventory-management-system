@@ -106,7 +106,7 @@ class Inventory:
         """
 
         with open(self.database_path, "w") as file:
-            file.write(json.dumps(new_inventory), indent=4)
+            file.write(json.dumps(new_inventory, indent=4))
 
     def add_product(self, product_name: str, description: str, company: str, price: float, stock: str) -> None:
         """
@@ -223,7 +223,7 @@ class UserInteractionViaTerminal:
                     print(f"{product}: {price}")
 
             case "6":
-                self.printAllProducts(inventory=self.inventory)
+                self.printAllProducts()
                 product_index = int(input("Enter the index of the product to view details: "))
                 all_products = self.inventory.get_all_products_names()
                 if not 0 <= product_index < len(all_products):
