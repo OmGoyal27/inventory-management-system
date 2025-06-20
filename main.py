@@ -176,53 +176,50 @@ class UserInteractionViaTerminal:
             choice = input("Enter your choice: ")
             print("\n")
 
-            if choice == "1":
-                products = self.inventory.get_all_products_names()
-                print("Available products:", products)
-
-            elif choice == "2":
-                name = input("Enter product name: ")
-                description = input("Enter product description: ")
-                company = input("Enter company name: ")
-                price = float(input("Enter product price: "))
-                stock = input("Enter stock quantity: ")
-                self.inventory.add_product(name, description, company, price, stock)
-                print(f"Product '{name}' added successfully.")
-
-            elif choice == "3":
-                name = input("Enter product name to sell: ")
-                quantity = int(input("Enter quantity to sell: "))
-                result = self.inventory.sell_product(name, quantity)
-                print(result)
-
-            elif choice == "4":
-                print("Stock of all products:")
-                getStockOfAllProduct(self.inventory)
-            
-            elif choice == "5":
-                all_products = self.inventory.get_all_products_names()
-                print("Price of all products:")
-                for product in all_products:
-                    price = self.inventory.get_price_of_product(product)
-                    print(f"{product}: {price}")
-
-            elif choice == "6":
-                printAllProducts(inventory=self.inventory)
-                product_index = int(input("Enter the index of the product to view details: "))
-                all_products = self.inventory.get_all_products_names()
-                if not 0 <= product_index < len(all_products):
-                    print("Invalid index. Please try again.")
-                    continue
-
-                product_name = all_products[product_index]
-                viewProductDetails(self.inventory, product_name)
-
-            elif choice == "q":
-                print("Exiting the system.")
+            if choice.lower() == 'q':
+                print("Thank you for using the Inventory Management System. Goodbye!\n")
                 break
 
-            else:
-                print("Invalid choice. Please try again.")
+            self.handleUserInput(choice)  
+
+    def handleUserInput(self, choice: str) -> None:
+        if choice == "1":
+            products = self.inventory.get_all_products_names()
+            print("Available products:", products)
+        elif choice == "2":
+            name = input("Enter product name: ")
+            description = input("Enter product description: ")
+            company = input("Enter company name: ")
+            price = float(input("Enter product price: "))
+            stock = input("Enter stock quantity: ")
+            self.inventory.add_product(name, description, company, price, stock)
+            print(f"Product '{name}' added successfully.")
+        elif choice == "3":
+            name = input("Enter product name to sell: ")
+            quantity = int(input("Enter quantity to sell: "))
+            result = self.inventory.sell_product(name, quantity)
+            print(result)
+        elif choice == "4":
+            print("Stock of all products:")
+            getStockOfAllProduct(self.inventory)
+        elif choice == "5":
+            all_products = self.inventory.get_all_products_names()
+            print("Price of all products:")
+            for product in all_products:
+                price = self.inventory.get_price_of_product(product)
+                print(f"{product}: {price}")
+        elif choice == "6":
+            printAllProducts(inventory=self.inventory)
+            product_index = int(input("Enter the index of the product to view details: "))
+            all_products = self.inventory.get_all_products_names()
+            if not 0 <= product_index < len(all_products):
+                print("Invalid index. Please try again.")
+                return
+            
+            product_name = all_products[product_index]
+            viewProductDetails(self.inventory, product_name)
+        else:
+            print("Invalid choice. Please try again.")
 
 def viewProductDetails(inventory: Inventory, product_name: str) -> None:
     """
