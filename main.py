@@ -186,7 +186,10 @@ class UserInteractionViaTerminal:
         match choice:
             case "1":
                 products = self.inventory.get_all_products_names()
-                print("Available products:", products)
+                print("Available products:")
+                for product in products:
+                    stock = self.inventory.get_stock_of_product(product)
+                    print(f"- {product}: {stock} in stock")
 
             case "2":
                 name = input("Enter product name: ")
