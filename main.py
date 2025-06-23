@@ -177,20 +177,31 @@ class Inventory:
 class UserInteractionViaTerminal:
     def __init__(self):
         self.inventory = Inventory()
+        self.options = {
+            "1.": "View all products",
+            "2.": "Add a product",
+            "3.": "Sell a product",
+            "4.": "View stock of all the products",
+            "5.": "View Price of all the products",
+            "6.": "View details of a product",
+            "7.": "Increase stock of a product"
+        }
+
+    def printOptions(self) -> None:
+        """
+        Function to print the available options for the user.
+        """
+        print("Available options:")
+        for key, value in self.options.items():
+            print(f"{key} {value}")
+        print("Type 'q' to quit")
 
     def run(self):
         print("\nWelcome to the Inventory Management System")
         print("This app is made by Om Goyal.")
         while True:
             print("\n")
-            print("1. View all products")
-            print("2. Add a product")
-            print("3. Sell a product")
-            print("4. View stock of all the products")
-            print("5. View Price of all the products")
-            print("6. View details of a product")
-            print("7. Increase stock of a product")
-            print("Type 'q' to quit")
+            self.printOptions()
             
             choice = input("Enter your choice: ")
             print("\n")
