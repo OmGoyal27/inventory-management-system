@@ -160,6 +160,20 @@ class Inventory:
         
         return f"Sold {quantity} of '{product_name}'. New stock: {inventory[product_name]['Stock']}"
     
+    def get_all_categories(self) -> list[str]:
+        """
+        Function to get all categories from the inventory.
+
+        Returns a list of unique categories.
+        """
+
+        inventory = self.get_raw_inventory()
+        categories = set()
+
+        for product in inventory.values():
+            categories.add(product["Category"])
+
+        return list(categories)
 class UserInteractionViaTerminal:
     def __init__(self):
         self.inventory = Inventory()
@@ -201,6 +215,12 @@ class UserInteractionViaTerminal:
                 company = input("Enter company name: ")
                 price = float(input("Enter product price: "))
                 stock = input("Enter stock quantity: ")
+                formatted_categories = ""
+                for category in self.inventory.get_all_categories():
+                    formatted_categories += f"- {category}\n"
+
+                print(f"Available categories:\n{formatted_categories}")
+                print("Please enter the category of the product from the above list or a new category.")
                 category = input("Enter product category: ")
                 self.inventory.add_product(name, description, company, price, stock, category)
                 print(f"Product '{name}' added successfully.")
