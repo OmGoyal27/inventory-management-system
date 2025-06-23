@@ -189,6 +189,7 @@ class UserInteractionViaTerminal:
             print("4. View stock of all the products")
             print("5. View Price of all the products")
             print("6. View details of a product")
+            print("7. Increase stock of a product")
             print("Type 'q' to quit")
             
             choice = input("Enter your choice: ")
@@ -253,13 +254,42 @@ class UserInteractionViaTerminal:
             case "6":
                 self.printAllProducts()
                 product_index = int(input("Enter the index of the product to view details: "))
-                all_products = self.inventory.get_all_products_names()
+                all_products = self.inventory.get_raw_inventory()
                 if not 0 <= product_index < len(all_products):
                     print("Invalid index. Please try again.")
                     return
 
                 product_name = all_products[product_index]
                 self.viewProductDetails(product_name)
+
+            case "7":
+                self.printAllProducts()
+                product_index = input("Enter the index of the product to increase stock or type 'new' to add a new product: ")
+                if product_index.lower() == 'new':
+                    self.handleUserInput("2")
+                    return
+                
+                product_index = int(product_index)
+                all_products = self.inventory.get_all_products_names()
+                if not 0 <= product_index < len(all_products):
+                    print("Invalid index. Please try again.")
+                    return
+                
+                product_name = all_products[product_index]
+                current_stock = self.inventory.get_stock_of_product(product_name)
+                print(f"Selected product: {product_name} with current stock {current_stock}")
+                stock_increase = int(input(f"Enter the amount to increase stock for '{product_name}': "))
+                if stock_increase < 0:
+                    print("Stock increase cannot be negative. Please try again.")
+                    return
+
+                product_details = self.inventory.get_details_of_product(product_name)
+                self.inventory.add_product(product_name, 
+                                          product_details["Description"],
+                                          product_details["Company"],
+                                          self.inventory.get_price_of_product(product_name),
+                                          stock_increase,
+                                          product_details["Category"])
 
             case _:
                 print("Invalid choice. Please try again.")
