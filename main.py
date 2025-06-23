@@ -22,7 +22,9 @@ class Inventory:
 
             "Price": "0.0",
 
-            "Stock": "0"
+            "Stock": "0",
+
+            "Category": "The category of the product; e.g. AC, Battery, TV etc."
 
         }
 
@@ -108,7 +110,7 @@ class Inventory:
         with open(self.database_path, "w") as file:
             file.write(json.dumps(new_inventory, indent=4))
 
-    def add_product(self, product_name: str, description: str, company: str, price: float, stock: str) -> None:
+    def add_product(self, product_name: str, description: str, company: str, price: float | str, stock: str, category: str) -> None:
         """
         The product will be added with the given name, description, company, price, and stock.
         If the product already exists, it will increment the stock and notify the user about it.
@@ -121,6 +123,7 @@ class Inventory:
             inventory[product_name]["Company"] = company
             inventory[product_name]["Price"] = str(price)
             inventory[product_name]["Stock"] = int(inventory[product_name]["Stock"]) + int(stock)
+            inventory[product_name]["Category"] = category
             print(f"Product '{product_name}' already exists. Stock has been updated.")
             print(f"New stock for '{product_name}': {inventory[product_name]['Stock']}")
         else:
@@ -128,7 +131,8 @@ class Inventory:
                 "Description": description,
                 "Company": company,
                 "Price": str(price),
-                "Stock": str(stock)
+                "Stock": str(stock),
+                "Category": category
             }
         
         self.update_raw_inventory(inventory)
@@ -197,7 +201,8 @@ class UserInteractionViaTerminal:
                 company = input("Enter company name: ")
                 price = float(input("Enter product price: "))
                 stock = input("Enter stock quantity: ")
-                self.inventory.add_product(name, description, company, price, stock)
+                category = input("Enter product category: ")
+                self.inventory.add_product(name, description, company, price, stock, category)
                 print(f"Product '{name}' added successfully.")
                 
             case "3":
@@ -255,6 +260,7 @@ class UserInteractionViaTerminal:
         print(f"Company: {product_details['Company']}")
         print(f"Price: {product_details['Price']}")
         print(f"Stock: {product_details['Stock']}")
+        print(f"Category: {product_details['Category']}")
 
     def printAllProducts(self) -> None:
         all_products = self.inventory.get_all_products_names()
