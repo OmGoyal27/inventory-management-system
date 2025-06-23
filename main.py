@@ -215,11 +215,7 @@ class UserInteractionViaTerminal:
     def handleUserInput(self, choice: str) -> None:
         match choice:
             case "1":
-                products = self.inventory.get_all_products_names()
-                print("Available products:")
-                for product in products:
-                    stock = self.inventory.get_stock_of_product(product)
-                    print(f"- {product}: {stock} in stock")
+                self.option_view_all_products()
 
             case "2":
                 name = input("Enter product name: ")
@@ -304,6 +300,13 @@ class UserInteractionViaTerminal:
 
             case _:
                 print("Invalid choice. Please try again.")
+
+    def option_view_all_products(self) -> None:
+        products = self.inventory.get_all_products_names()
+        print("Available products:")
+        for product in products:
+            stock = self.inventory.get_stock_of_product(product)
+            print(f"- {product}: {stock} in stock")
 
     def viewProductDetails(self, product_name: str) -> None:
         """
