@@ -224,20 +224,7 @@ class UserInteractionViaTerminal:
                 self.option_view_all_products()
 
             case "2":
-                name = input("Enter product name: ")
-                description = input("Enter product description: ")
-                company = input("Enter company name: ")
-                price = float(input("Enter product price: "))
-                stock = input("Enter stock quantity: ")
-                formatted_categories = ""
-                for category in self.inventory.get_all_categories():
-                    formatted_categories += f"- {category}\n"
-
-                print(f"Available categories:\n{formatted_categories}")
-                print("Please enter the category of the product from the above list or a new category.")
-                category = input("Enter product category: ")
-                self.inventory.add_product(name, description, company, price, stock, category)
-                print(f"Product '{name}' added successfully.")
+                self.option_add_product()
                 
             case "3":
                 self.printAllProducts()
@@ -353,6 +340,22 @@ class UserInteractionViaTerminal:
         for product in products:
             stock = self.inventory.get_stock_of_product(product)
             print(f"- {product}: {stock} in stock")
+
+    def option_add_product(self) -> None:
+        name = input("Enter product name: ")
+        description = input("Enter product description: ")
+        company = input("Enter company name: ")
+        price = float(input("Enter product price: "))
+        stock = input("Enter stock quantity: ")
+        formatted_categories = ""
+        for category in self.inventory.get_all_categories():
+            formatted_categories += f"- {category}\n"
+        
+        print(f"Available categories:\n{formatted_categories}")
+        print("Please enter the category of the product from the above list or a new category.")
+        category = input("Enter product category: ")
+        self.inventory.add_product(name, description, company, price, stock, category)
+        print(f"Product '{name}' added successfully.")
 
     def viewProductDetails(self, product_name: str) -> None:
         """
