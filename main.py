@@ -196,7 +196,6 @@ class UserInteractionViaTerminal:
             "View all products": self.option_view_all_products,
             "Add a product": self.option_add_product,
             "Sell a product": self.option_sell_product,
-            "View stock of all the products": self.printStockOfAllProduct,
             "View Price of all the products": self.option_view_price_of_all_products,
             "View details of a product": self.option_view_product_details,
             "Increase stock of a product": self.option_increase_stock_of_product,
@@ -387,13 +386,6 @@ class UserInteractionViaTerminal:
 
         for index, product in enumerate(all_products):
             print(f"{index}: {product}")
-
-    def printStockOfAllProduct(self) -> int:
-        print("Stock of all products:")
-        all_products = self.inventory.get_all_products_names()
-
-        for product in all_products:
-            print(f"- {product}: {self.inventory.get_stock_of_product(product)} in stock")
 
 def main():
     user_interaction = UserInteractionViaTerminal()
