@@ -299,7 +299,7 @@ class UserInteractionViaTerminal:
         print("Price of all products:")
         for product in all_products:
             price = self.inventory.get_price_of_product(product)
-            print(f"{product}: {price}")
+            print(f"- {product}: {price}")
 
     def option_view_product_details(self) -> None:
         all_products = self.inventory.get_all_products_names()
