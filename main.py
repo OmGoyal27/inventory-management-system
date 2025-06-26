@@ -246,15 +246,7 @@ class UserInteractionViaTerminal:
                 self.option_view_price_of_all_products()
 
             case "6":
-                self.printAllProducts()
-                product_index = int(input("Enter the index of the product to view details: "))
-                all_products = self.inventory.get_raw_inventory()
-                if not 0 <= product_index < len(all_products):
-                    print("Invalid index. Please try again.")
-                    return
-
-                product_name = all_products[product_index]
-                self.viewProductDetails(product_name)
+                self.option_view_product_details()
 
             case "7":
                 self.printAllProducts()
@@ -366,6 +358,13 @@ class UserInteractionViaTerminal:
         print(result)
         
     def option_view_price_of_all_products(self) -> None:
+        all_products = self.inventory.get_all_products_names()
+        print("Price of all products:")
+        for product in all_products:
+            price = self.inventory.get_price_of_product(product)
+            print(f"{product}: {price}")
+
+    def option_view_product_details(self) -> None:
         all_products = self.inventory.get_all_products_names()
         print("Price of all products:")
         for product in all_products:
