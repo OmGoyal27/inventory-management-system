@@ -252,44 +252,7 @@ class UserInteractionViaTerminal:
                 self.option_increase_stock_of_product()
                 
             case "8":
-                self.printAllProducts()
-                product_index = int(input("Enter the index of the product to update details: "))
-                all_products = self.inventory.get_all_products_names()
-                if not 0 <= product_index < len(all_products):
-                    print("Invalid index. Please try again.")
-                    return
-                
-                product_name = all_products[product_index]
-                print(f"Selected product: {product_name}")
-                product_name = input(f"Enter new product name (or press Enter to keep {product_name}): ") or product_name
-                product_details = self.inventory.get_details_of_product(product_name)
-                old_description = product_details["Description"]
-                old_company = product_details["Company"]
-                old_price = self.inventory.get_price_of_product(product_name)
-                old_stock = product_details["Stock"]
-                old_category = product_details["Category"]
-
-                description = input(f"Enter new product description (or press Enter to keep '{old_description}'): ") or old_description
-                company = input(f"Enter new company name (or press Enter to keep '{old_company}'): ") or old_company
-                price_input = input(f"Enter new product price (or press Enter to keep '{old_price}'): ") or old_price
-
-                try:
-                    float(price_input)
-                except ValueError:
-                    print("Invalid price value. Please enter a valid price.")
-                    return
-                
-                stock = input(f"Enter new stock quantity (or press Enter to keep '{old_stock}'): ") or old_stock
-
-                try:
-                    int(stock)  # Validate stock input
-                except ValueError:
-                    print("Invalid stock value. Please enter a valid stock quantity.")
-                    return
-                
-                category = input(f"Enter new product category (or press Enter to keep '{old_category}'): ") or old_category
-
-                self.inventory.add_product(product_name, description, company, price_input, stock, category, raw_stock_value=True)
+                self.option_update_product_details()
 
             case _:
                 print("Invalid choice. Please try again.")
@@ -374,6 +337,46 @@ class UserInteractionViaTerminal:
                                   stock_increase,
                                   product_details["Category"])
         
+    def option_update_product_details(self) -> None:
+        self.printAllProducts()
+        product_index = int(input("Enter the index of the product to update details: "))
+        all_products = self.inventory.get_all_products_names()
+        if not 0 <= product_index < len(all_products):
+            print("Invalid index. Please try again.")
+            return
+                
+        product_name = all_products[product_index]
+        print(f"Selected product: {product_name}")
+        product_name = input(f"Enter new product name (or press Enter to keep {product_name}): ") or product_name
+        product_details = self.inventory.get_details_of_product(product_name)
+        old_description = product_details["Description"]
+        old_company = product_details["Company"]
+        old_price = self.inventory.get_price_of_product(product_name)
+        old_stock = product_details["Stock"]
+        old_category = product_details["Category"]
+
+        description = input(f"Enter new product description (or press Enter to keep '{old_description}'): ") or old_description
+        company = input(f"Enter new company name (or press Enter to keep '{old_company}'): ") or old_company
+        price_input = input(f"Enter new product price (or press Enter to keep '{old_price}'): ") or old_price
+
+        try:
+            float(price_input)
+        except ValueError:
+            print("Invalid price value. Please enter a valid price.")
+            return
+                
+        stock = input(f"Enter new stock quantity (or press Enter to keep '{old_stock}'): ") or old_stock
+
+        try:
+            int(stock)  # Validate stock input
+        except ValueError:
+            print("Invalid stock value. Please enter a valid stock quantity.")
+            return
+                
+        category = input(f"Enter new product category (or press Enter to keep '{old_category}'): ") or old_category
+
+        self.inventory.add_product(product_name, description, company, price_input, stock, category, raw_stock_value=True)
+
     def viewProductDetails(self, product_name: str) -> None:
         """
         Function to view the details of a specific product.
