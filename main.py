@@ -188,6 +188,7 @@ class Inventory:
             categories.add(product["Category"])
 
         return list(categories)
+
 class UserInteractionViaTerminal:
     def __init__(self):
         self.inventory = Inventory()
