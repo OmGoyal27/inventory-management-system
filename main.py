@@ -216,7 +216,7 @@ class UserInteractionViaTerminal:
         print("\nWelcome to the Inventory Management System")
         print("This app is made by Om Goyal.")
         while True:
-            print("\n")
+            input("Press enter to continue\n")
             self.printOptions()
             
             choice = input("Enter your choice: ")
