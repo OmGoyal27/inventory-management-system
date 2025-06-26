@@ -237,18 +237,7 @@ class UserInteractionViaTerminal:
                 self.option_add_product()
                 
             case "3":
-                self.printAllProducts()
-                name = input("Enter product index to sell: ")
-                all_products = self.inventory.get_all_products_names()
-                if not name.isdigit() or int(name) < 0 or int(name) >= len(all_products):
-                    print("Invalid product index. Please try again.")
-                    return
-
-                name = all_products[int(name)]
-                print(f"Selected product: {name} with stock {self.inventory.get_stock_of_product(name)}")
-                quantity = int(input("Enter quantity to sell: "))
-                result = self.inventory.sell_product(name, quantity)
-                print(result)
+                self.option_sell_product()
 
             case "4":
                 print("Stock of all products:")
@@ -367,6 +356,20 @@ class UserInteractionViaTerminal:
         self.inventory.add_product(name, description, company, price, stock, category)
         print(f"Product '{name}' added successfully.")
 
+    def option_sell_product(self) -> None:
+        self.printAllProducts()
+        name = input("Enter product index to sell: ")
+        all_products = self.inventory.get_all_products_names()
+        if not name.isdigit() or int(name) < 0 or int(name) >= len(all_products):
+            print("Invalid product index. Please try again.")
+            return
+        
+        name = all_products[int(name)]
+        print(f"Selected product: {name} with stock {self.inventory.get_stock_of_product(name)}")
+        quantity = int(input("Enter quantity to sell: "))
+        result = self.inventory.sell_product(name, quantity)
+        print(result)
+        
     def viewProductDetails(self, product_name: str) -> None:
         """
         Function to view the details of a specific product.
