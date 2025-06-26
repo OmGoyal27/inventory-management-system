@@ -33,10 +33,19 @@ class Inventory:
 
         """
 
-        with open(self.database_path, "r") as file:
-            inventory = file.read()
+        try:
+            with open(self.database_path, "r") as file:
+                inventory = file.read()
+            return json.loads(inventory)
+        except json.JSONDecodeError:
+            print("Error decoding JSON from the database. Please check the file format.")
+            return {}
 
-        return json.loads(inventory)
+        except FileNotFoundError:
+            print("Database file not found. Please ensure the database path is correct.")
+            with open(self.database_path, "w") as file:
+                file.write(json.dumps({}, indent=4))
+            return {}
 
     def get_all_products_names(self) -> list[str]:
         """
