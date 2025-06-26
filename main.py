@@ -243,11 +243,7 @@ class UserInteractionViaTerminal:
                 self.printStockOfAllProduct()
 
             case "5":
-                all_products = self.inventory.get_all_products_names()
-                print("Price of all products:")
-                for product in all_products:
-                    price = self.inventory.get_price_of_product(product)
-                    print(f"{product}: {price}")
+                self.option_view_price_of_all_products()
 
             case "6":
                 self.printAllProducts()
@@ -369,6 +365,13 @@ class UserInteractionViaTerminal:
         result = self.inventory.sell_product(name, quantity)
         print(result)
         
+    def option_view_price_of_all_products(self) -> None:
+        all_products = self.inventory.get_all_products_names()
+        print("Price of all products:")
+        for product in all_products:
+            price = self.inventory.get_price_of_product(product)
+            print(f"{product}: {price}")
+
     def viewProductDetails(self, product_name: str) -> None:
         """
         Function to view the details of a specific product.
