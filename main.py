@@ -249,33 +249,7 @@ class UserInteractionViaTerminal:
                 self.option_view_product_details()
 
             case "7":
-                self.printAllProducts()
-                product_index = input("Enter the index of the product to increase stock or type 'new' to add a new product: ")
-                if product_index.lower() == 'new':
-                    self.handleUserInput("2")
-                    return
-                
-                product_index = int(product_index)
-                all_products = self.inventory.get_all_products_names()
-                if not 0 <= product_index < len(all_products):
-                    print("Invalid index. Please try again.")
-                    return
-                
-                product_name = all_products[product_index]
-                current_stock = self.inventory.get_stock_of_product(product_name)
-                print(f"Selected product: {product_name} with current stock {current_stock}")
-                stock_increase = int(input(f"Enter the amount to increase stock for '{product_name}': "))
-                if stock_increase < 0:
-                    print("Stock increase cannot be negative. Please try again.")
-                    return
-
-                product_details = self.inventory.get_details_of_product(product_name)
-                self.inventory.add_product(product_name, 
-                                          product_details["Description"],
-                                          product_details["Company"],
-                                          self.inventory.get_price_of_product(product_name),
-                                          stock_increase,
-                                          product_details["Category"])
+                self.option_increase_stock_of_product()
                 
             case "8":
                 self.printAllProducts()
@@ -371,6 +345,35 @@ class UserInteractionViaTerminal:
             price = self.inventory.get_price_of_product(product)
             print(f"{product}: {price}")
 
+    def option_increase_stock_of_product(self) -> None:
+        self.printAllProducts()
+        product_index = input("Enter the index of the product to increase stock or type 'new' to add a new product: ")
+        if product_index.lower() == 'new':
+            self.handleUserInput("2")
+            return
+                
+        product_index = int(product_index)
+        all_products = self.inventory.get_all_products_names()
+        if not 0 <= product_index < len(all_products):
+            print("Invalid index. Please try again.")
+            return
+                
+        product_name = all_products[product_index]
+        current_stock = self.inventory.get_stock_of_product(product_name)
+        print(f"Selected product: {product_name} with current stock {current_stock}")
+        stock_increase = int(input(f"Enter the amount to increase stock for '{product_name}': "))
+        if stock_increase < 0:
+            print("Stock increase cannot be negative. Please try again.")
+            return
+
+        product_details = self.inventory.get_details_of_product(product_name)
+        self.inventory.add_product(product_name, 
+                                  product_details["Description"],
+                                  product_details["Company"],
+                                  self.inventory.get_price_of_product(product_name),
+                                  stock_increase,
+                                  product_details["Category"])
+        
     def viewProductDetails(self, product_name: str) -> None:
         """
         Function to view the details of a specific product.
