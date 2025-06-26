@@ -192,24 +192,25 @@ class Inventory:
 class UserInteractionViaTerminal:
     def __init__(self):
         self.inventory = Inventory()
-        self.options = {
-            "1.": "View all products",
-            "2.": "Add a product",
-            "3.": "Sell a product",
-            "4.": "View stock of all the products",
-            "5.": "View Price of all the products",
-            "6.": "View details of a product",
-            "7.": "Increase stock of a product",
-            "8.": "Update details of a product"
+        self.options: dict[str, function] = {
+            "View all products": self.option_view_all_products,
+            "Add a product": self.option_add_product,
+            "Sell a product": self.option_sell_product,
+            "View stock of all the products": self.printStockOfAllProduct,
+            "View Price of all the products": self.option_view_price_of_all_products,
+            "View details of a product": self.option_view_product_details,
+            "Increase stock of a product": self.option_increase_stock_of_product,
+            "Update details of a product": self.option_update_product_details
         }
+        self.options_list = list(self.options.keys())
 
     def printOptions(self) -> None:
         """
         Function to print the available options for the user.
         """
         print("Available options:")
-        for key, value in self.options.items():
-            print(f"{key} {value}")
+        for index, option in enumerate(self.options_list, start=1):
+            print(f"{index}. {option}")
         print("Type 'q' to quit")
 
     def run(self):
@@ -220,42 +221,28 @@ class UserInteractionViaTerminal:
             self.printOptions()
             
             choice = input("Enter your choice: ")
-            print("\n")
-
             if choice.lower() == 'q':
                 print("Thank you for using the Inventory Management System. Goodbye!\n")
                 break
 
+            try:
+                choice = int(choice)
+            except ValueError:
+                print("Invalid input. Please enter a number corresponding to the option or 'q' to quit.")
+
+            print("\n")
+
             self.handleUserInput(choice)  
 
-    def handleUserInput(self, choice: str) -> None:
-        match choice:
-            case "1":
-                self.option_view_all_products()
+    def handleUserInput(self, choice: int) -> None:
+        choice = choice - 1  # Adjust for zero-based index
+        if choice < 0 or choice >= len(self.options_list):
+            print("Invalid choice. Please try again.")
+            return
 
-            case "2":
-                self.option_add_product()
-                
-            case "3":
-                self.option_sell_product()
-
-            case "4":
-                self.printStockOfAllProduct()
-
-            case "5":
-                self.option_view_price_of_all_products()
-
-            case "6":
-                self.option_view_product_details()
-
-            case "7":
-                self.option_increase_stock_of_product()
-                
-            case "8":
-                self.option_update_product_details()
-
-            case _:
-                print("Invalid choice. Please try again.")
+        option_name = self.options_list[choice]
+        action = self.options[option_name]
+        action()  # Call the corresponding method for the selected option
 
     def option_view_all_products(self) -> None:
         products = self.inventory.get_all_products_names()
