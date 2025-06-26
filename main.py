@@ -240,8 +240,7 @@ class UserInteractionViaTerminal:
                 self.option_sell_product()
 
             case "4":
-                print("Stock of all products:")
-                self.getStockOfAllProduct()
+                self.printStockOfAllProduct()
 
             case "5":
                 all_products = self.inventory.get_all_products_names()
@@ -394,7 +393,8 @@ class UserInteractionViaTerminal:
         for index, product in enumerate(all_products):
             print(f"{index}: {product}")
 
-    def getStockOfAllProduct(self) -> int:
+    def printStockOfAllProduct(self) -> int:
+        print("Stock of all products:")
         all_products = self.inventory.get_all_products_names()
 
         for product in all_products:
